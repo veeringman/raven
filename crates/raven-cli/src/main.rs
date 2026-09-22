@@ -1,4 +1,4 @@
-use raven_core::{principles, Phase, PolicyDecision};
+use raven_core::{principles, GoalState, Phase, PolicyDecision};
 use raven_runtime::RunReport;
 
 fn main() {
@@ -22,7 +22,15 @@ fn main() {
                 eprintln!("unknown demo '{name}'. try: raven demo prepare-my-day");
                 std::process::exit(2);
             }
-            print_report(&raven_runtime::prepare_my_day());
+            let report = match args.next().as_deref() {
+                None => raven_runtime::prepare_my_day(),
+                Some("--approve") => raven_runtime::prepare_my_day_with_approval(),
+                Some(other) => {
+                    eprintln!("unknown demo option '{other}'. try: --approve");
+                    std::process::exit(2);
+                }
+            };
+            print_report(&report);
         }
         Some(other) => {
             eprintln!("unknown command '{other}'");
@@ -38,8 +46,10 @@ fn print_help() {
 RAVEN — from intent to action
 
 Usage:
-  raven demo [prepare-my-day]   Run the canonical in-process demonstration
-  raven principles              Print the architectural principles
+  raven demo [prepare-my-day] [--approve]
+                              Run the canonical demonstration
+                              --approve resumes after AskUser and finishes
+  raven principles            Print the architectural principles
   raven version
   raven help"
     );
@@ -68,8 +78,27 @@ fn print_report(report: &RunReport) {
     println!();
     println!("Outcome");
     println!("  {:?}", report.state);
-    if report.state == raven_core::GoalState::WaitingForUser {
-        println!("  The next step waits for you. It was not executed.");
+    match report.state {
+        GoalState::WaitingForUser => {
+            if let Some(pending) = &report.pending {
+                println!(
+                    "  Waiting on '{}'. Resume with approve, deny, or cancel.",
+                    pending.capability_id
+                );
+            } else {
+                println!("  The next step waits for you. It was not executed.");
+            }
+        }
+        GoalState::Completed => {
+            println!("  Goal completed under policy and verification.");
+        }
+        GoalState::Cancelled => {
+            println!("  Run cancelled. No further tools will run.");
+        }
+        GoalState::Failed => {
+            println!("  Goal failed. Pending work was not completed.");
+        }
+        _ => {}
     }
 }
 

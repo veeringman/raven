@@ -9,6 +9,7 @@ members = [
     "crates/raven-events",
     "crates/raven-runtime",
     "crates/raven-cli",
+    "crates/raven-ffi",
 ]
 
 [workspace.package]

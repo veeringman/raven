@@ -39,10 +39,10 @@ https://github.com/veeringman/raven
 Foundational. The concept baseline is in [`docs/CONCEPT.md`](docs/CONCEPT.md). This tree implements the first runtime slice:
 
 ```text
-Intent → Plan → Policy → Tool → Verify
+Intent → Reason → Plan → Policy → Tool → Verify
 ```
 
-Consequential and physical capabilities always stop and ask. The canonical demo never leaves the process.
+Planning uses a replaceable `ModelAdapter`. Consequential and physical capabilities always stop and ask. The canonical demo never leaves the process.
 
 ## Run the demonstration
 
@@ -51,12 +51,15 @@ cargo run -p raven-cli -- demo
 cargo run -p raven-cli -- principles
 ```
 
-`raven demo` is "Prepare my day." Calendar, tasks, weather, and location are read and verified. Sending a message is risk L2, so the run stops in `WaitingForUser` and does not send anything.
+`raven demo` is "Prepare my day." Calendar, tasks, weather, and location are read and verified. Sending a message is risk L2, so the run stops in `WaitingForUser` with a durable checkpoint and does not send anything. Pass `--approve` to resume, send the fixture message, verify, and complete.
 
 ## Layout
 
 ```text
 raven/
+├── apps/ios/
+│   ├── RavenKit/         Swift package + UniFFI XCFramework
+│   └── PrepareMyDay/     Sample iOS app
 ├── assets/logo/          Lockup, app icon, favicon
 ├── assets/icons/         Loop and primitive icons
 ├── brand/                Identity page
@@ -64,14 +67,25 @@ raven/
 │   ├── raven-core/       Goal, capability, risk, evidence
 │   ├── raven-policy/     Allow, ask, or deny
 │   ├── raven-tools/      Capability registry
-│   ├── raven-execution/  Goal state machine
+│   ├── raven-execution/  Goal state machine, cancellation
 │   ├── raven-verification/
 │   ├── raven-events/
-│   ├── raven-runtime/    The loop
+│   ├── raven-runtime/    The loop and replaceable planner
+│   ├── raven-ffi/        UniFFI Swift bridge
 │   └── raven-cli/
 ├── docs/
-└── examples/prepare-my-day/
+├── examples/prepare-my-day/
+└── scripts/build-ios-ffi.sh
 ```
+
+## iOS sample
+
+```bash
+./scripts/build-ios-ffi.sh
+cd apps/ios/PrepareMyDay && open PrepareMyDay.xcodeproj
+```
+
+See [`apps/ios/PrepareMyDay/README.md`](apps/ios/PrepareMyDay/README.md).
 
 ## Documents
 

@@ -7,14 +7,19 @@ The concept baseline in [CONCEPT.md](CONCEPT.md) is the invariant. This document
 ```text
 Intent
   → Perceive
-  → Plan
+  → Reason (replaceable model proposes a plan)
+  → Plan (runtime accepts only discovered capabilities)
   → Authorize
   → Act
   → Verify
-  → Completed, WaitingForUser, Recovering, or Failed
+  → Completed, WaitingForUser, Recovering, Failed, or Cancelled
 ```
 
 A tool is reached only after the policy engine returns `Allow` or `AllowWithPolicy`. `AskUser` and `Deny` do not invoke the tool.
+
+A run can stop with a durable `RunCheckpoint` when policy asks the user. The host keeps that checkpoint, collects `Approve`, `Deny`, or `Cancel`, and calls `resume`. A shared `CancellationToken` is checked between steps; it does not preempt a tool already in flight.
+
+Planning goes through a [`ModelAdapter`](../crates/raven-runtime/src/planner.rs). The adapter returns a proposal. The runtime filters unknown capability ids, bounds step count, then authorizes. No model calls a tool. The demo uses `ScriptedModel`; a host can swap in on-device or cloud providers without changing the loop.
 
 ## Crates
 
@@ -23,11 +28,14 @@ A tool is reached only after the policy engine returns `Allow` or `AllowWithPoli
 | `raven-core` | Goal, capability, risk, autonomy, evidence, principles |
 | `raven-policy` | Contextual authorization |
 | `raven-tools` | Discovery registry. Registration is not permission |
-| `raven-execution` | Legal goal-state transitions |
+| `raven-execution` | Legal goal-state transitions, cancellation tokens |
 | `raven-verification` | Evidence must support the expected claim |
 | `raven-events` | Ordered log of the run |
-| `raven-runtime` | One loop over a planner and bound tools |
+| `raven-runtime` | Loop, checkpoints, replaceable planner, resume |
+| `raven-ffi` | UniFFI bridge for Swift hosts |
 | `raven-cli` | `raven demo`, `raven principles` |
+
+iOS lives under `apps/ios/`: `RavenKit` (Swift package + XCFramework) and `PrepareMyDay` (sample app).
 
 ## Policy invariant
 
@@ -44,10 +52,10 @@ L3–L5 ask even when autonomy is `PolicyBounded`. A later phase may define a na
 
 ## What is deliberately absent
 
-Models, device bridges, credential brokers, network calls, shell execution, and physical actuators are not in this tree. The demo tools are in-process fixtures. Their evidence is a claim the verifier can accept or reject.
+Live cloud model providers, credential brokers, network calls, shell execution, and physical actuators are not in this tree. Fixture tools still stay in-process. The iOS sample plans with Apple Foundation Models when the system model is available, otherwise falls back to `ScriptedDayPlanner`. Verification and policy remain in Rust.
 
 Rust edition 2024 is the architectural target (MSRV 1.85+). The workspace compiles as edition 2021 on the current toolchain. The source uses no edition-2024-only syntax.
 
 ## Next boundary
 
-Phase 2 is a native bridge, not more framework surface. iOS through Swift and App Intents. Android through Kotlin. The Rust core stays platform-independent.
+Add App Intents for the sample goal, then Android. The Rust core stays platform-independent.

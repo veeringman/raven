@@ -1,3 +1,8 @@
 /target/
 **/*.rs.bk
 .DS_Store
+
+# Built by ./scripts/build-ios-ffi.sh (~65MB). Run the script before opening the iOS app.
+apps/ios/RavenKit/RavenFFI.xcframework/
+apps/ios/RavenKit/.headers/
+apps/ios/RavenKit/Generated/

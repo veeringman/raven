@@ -1,0 +1,33 @@
+name: PrepareMyDay
+options:
+  bundleIdPrefix: com.veerlabs.raven
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+settings:
+  BASE_SDK: iphoneos
+  SWIFT_VERSION: "5.9"
+packages:
+  RavenKit:
+    path: ../RavenKit
+targets:
+  PrepareMyDay:
+    type: application
+    platform: iOS
+    sources:
+      - path: PrepareMyDay
+    dependencies:
+      - package: RavenKit
+        product: RavenKit
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.veerlabs.raven.PrepareMyDay
+      INFOPLIST_KEY_CFBundleDisplayName: Prepare My Day
+      INFOPLIST_KEY_UILaunchScreen_Generation: true
+      INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+      TARGETED_DEVICE_FAMILY: "1"
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: PrepareMyDay/Info.plist
+      properties:
+        CFBundleDisplayName: Prepare My Day
+        UILaunchScreen: {}

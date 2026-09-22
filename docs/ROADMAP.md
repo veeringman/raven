@@ -12,12 +12,14 @@ Phases follow the concept baseline. Checked items exist in this repository.
 - [x] Event log
 - [x] In-process loop: intent → plan → tool → verify
 - [x] Canonical demo: prepare my day
-- [ ] Durable run state and cancellation tokens
-- [ ] Planner interface backed by a replaceable model
+- [x] Durable run state and cancellation tokens
+- [x] Planner interface backed by a replaceable model
 
 ## Phase 2 — Mobile runtime
 
-- [ ] Swift bridge, App Intents, Foundation Models
+- [x] Swift bridge (UniFFI) and sample iOS app: prepare my day end to end
+- [x] Foundation Models adapter wired as the live on-device planner
+- [ ] App Intents surface for the sample goal
 - [ ] Kotlin bridge, AppFunctions exploration, on-device model adapter
 
 ## Phase 3 — Memory and context

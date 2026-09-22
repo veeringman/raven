@@ -2,15 +2,54 @@
 //!
 //! Illegal jumps fail. The runtime cannot mark a goal completed without
 //! passing through understanding, planning, authorization, execution, and
-//! verification.
+//! verification. Cancellation is checked between steps; it never skips the
+//! state machine.
 
 use raven_core::GoalState;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct IllegalTransition {
     pub from: GoalState,
     pub to: GoalState,
 }
+
+/// Shared signal a host can flip to stop a run between steps.
+///
+/// Cancellation is cooperative. The runtime checks the token at step
+/// boundaries; it does not preempt a tool already in flight.
+#[derive(Clone, Debug, Default)]
+pub struct CancellationToken {
+    cancelled: Arc<AtomicBool>,
+}
+
+impl CancellationToken {
+    pub fn new() -> Self {
+        Self {
+            cancelled: Arc::new(AtomicBool::new(false)),
+        }
+    }
+
+    pub fn cancel(&self) {
+        self.cancelled.store(true, Ordering::SeqCst);
+    }
+
+    pub fn is_cancelled(&self) -> bool {
+        self.cancelled.load(Ordering::SeqCst)
+    }
+
+    pub fn check(&self) -> Result<(), Cancelled> {
+        if self.is_cancelled() {
+            Err(Cancelled)
+        } else {
+            Ok(())
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Cancelled;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Execution {
@@ -28,6 +67,11 @@ impl Execution {
         Self {
             state: GoalState::Created,
         }
+    }
+
+    /// Rebuild an execution cursor from a durable checkpoint.
+    pub fn from_state(state: GoalState) -> Self {
+        Self { state }
     }
 
     pub fn state(&self) -> GoalState {
@@ -70,6 +114,7 @@ fn allowed(from: GoalState, to: GoalState) -> bool {
             | (Recovering, WaitingForUser)
             | (Recovering, Failed)
             | (WaitingForUser, Authorized)
+            | (WaitingForUser, Failed)
             | (WaitingForUser, Cancelled)
             | (Paused, Planning)
             | (Created, Cancelled)
@@ -109,5 +154,23 @@ mod tests {
         assert_eq!(err.from, GoalState::Created);
         assert_eq!(err.to, GoalState::Completed);
         assert_eq!(run.state(), GoalState::Created);
+    }
+
+    #[test]
+    fn waiting_for_user_may_fail_or_cancel() {
+        let mut run = Execution::from_state(GoalState::WaitingForUser);
+        run.transition(GoalState::Failed).expect("deny");
+        let mut run = Execution::from_state(GoalState::WaitingForUser);
+        run.transition(GoalState::Cancelled).expect("cancel");
+    }
+
+    #[test]
+    fn cancellation_token_is_shared() {
+        let token = CancellationToken::new();
+        let clone = token.clone();
+        assert!(token.check().is_ok());
+        clone.cancel();
+        assert_eq!(token.check(), Err(Cancelled));
+        assert!(token.is_cancelled());
     }
 }
