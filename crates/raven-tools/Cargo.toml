@@ -1,0 +1,11 @@
+[package]
+name = "raven-tools"
+description = "Capability registry. Registration is not permission."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+
+[dependencies]
+raven-core = { path = "../raven-core" }

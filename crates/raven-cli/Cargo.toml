@@ -1,0 +1,16 @@
+[package]
+name = "raven-cli"
+description = "RAVEN command line. Demonstrates the loop without leaving the machine."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "raven"
+path = "src/main.rs"
+
+[dependencies]
+raven-core = { path = "../raven-core" }
+raven-runtime = { path = "../raven-runtime" }

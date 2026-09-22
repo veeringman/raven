@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAVEN — From intent to action</title>
+  <link rel="icon" href="../assets/logo/favicon.svg">
+  <style>
+    @font-face {
+      font-family: Outfit;
+      src: url("fonts/Outfit-Variable.ttf") format("truetype");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root {
+      --night: #07080c;
+      --ink: #10131a;
+      --mist: #f4f6fb;
+      --silver: #9aa3b8;
+      --slate: #5e6578;
+      --violet: #7a6cff;
+      --teal: #2ee6c7;
+      --amber: #f5b942;
+      --line: rgba(244, 246, 251, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--night); color: var(--mist); }
+    body {
+      font-family: Outfit, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-weight: 420;
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    header, main { width: min(1080px, calc(100% - 40px)); margin: 0 auto; }
+    header { padding: 28px 0 8px; display: flex; justify-content: space-between; align-items: center; }
+    .eyebrow {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--silver);
+    }
+    .hero { padding: 48px 0 28px; }
+    .hero img.lockup { width: min(560px, 100%); height: auto; }
+    h1 {
+      font-weight: 560;
+      font-size: clamp(40px, 6vw, 68px);
+      letter-spacing: -0.035em;
+      line-height: 0.98;
+      margin: 28px 0 12px;
+    }
+    .lede { max-width: 38rem; color: var(--silver); font-size: 19px; margin: 0; }
+    .rule { height: 2px; width: 72px; background: var(--amber); border: 0; margin: 28px 0; }
+    section { padding: 28px 0 10px; }
+    h2 {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--silver);
+      font-weight: 560;
+      margin: 0 0 18px;
+    }
+    .marks, .colors, .loop, .principles { display: grid; gap: 16px; }
+    .marks { grid-template-columns: 180px 1fr; align-items: center; }
+    .tile {
+      background: #10131a;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 18px;
+    }
+    .tile img { width: 100%; height: auto; display: block; }
+    .tile.light { background: var(--mist); }
+    .colors { grid-template-columns: repeat(5, 1fr); }
+    .swatch { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+    .swatch i { display: block; height: 72px; }
+    .swatch span, .swatch code {
+      display: block;
+      padding: 8px 10px 10px;
+      font-size: 12px;
+      color: var(--silver);
+    }
+    .swatch code { padding-top: 0; color: var(--mist); }
+    .loop { grid-template-columns: repeat(6, 1fr); }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 12px 14px;
+      min-height: 132px;
+    }
+    .step svg { width: 28px; height: 28px; color: var(--mist); }
+    .step strong { display: block; margin-top: 14px; font-weight: 560; letter-spacing: 0.04em; }
+    .step em { display: block; margin-top: 4px; color: var(--slate); font-style: normal; font-size: 13px; }
+    .primitives { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .primitives span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--mist);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 6px 12px 6px 8px;
+      font-size: 13px;
+    }
+    .primitives svg { width: 18px; height: 18px; }
+    .principles { grid-template-columns: 1fr 1fr; }
+    .principles article { border-top: 1px solid var(--line); padding: 14px 8px 8px 0; }
+    .principles strong { font-weight: 560; }
+    .principles p { margin: 4px 0 0; color: var(--silver); }
+    footer { width: min(1080px, calc(100% - 40px)); margin: 24px auto 48px; color: var(--slate); font-size: 13px; }
+    @media (max-width: 800px) {
+      .marks, .colors, .loop, .principles { grid-template-columns: 1fr 1fr; }
+      .loop { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Agentic application runtime</div>
+    <div class="eyebrow">Local first</div>
+  </header>
+  <main>
+    <div class="hero">
+      <img class="lockup" src="../assets/logo/lockup-on-dark.svg" alt="RAVEN, from intent to action">
+      <h1>Tell software what you want.</h1>
+      <hr class="rule">
+      <p class="lede">RAVEN understands a goal, discovers what this environment can do, asks before anything consequential, and will not call the work finished until the evidence agrees.</p>
+    </div>
+
+    <section>
+      <h2>Mark</h2>
+      <div class="marks">
+        <div class="tile"><img src="../assets/logo/app-icon.svg" alt="RAVEN app icon"></div>
+        <div class="tile light"><img src="../assets/logo/lockup.svg" alt="RAVEN lockup on a light field"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Color</h2>
+      <div class="colors">
+        <div class="swatch"><i style="background:#07080C"></i><span>Night</span><code>#07080C</code></div>
+        <div class="swatch"><i style="background:#10131A"></i><span>Ink</span><code>#10131A</code></div>
+        <div class="swatch"><i style="background:#7A6CFF"></i><span>Violet</span><code>#7A6CFF</code></div>
+        <div class="swatch"><i style="background:#2EE6C7"></i><span>Teal</span><code>#2EE6C7</code></div>
+        <div class="swatch"><i style="background:#F5B942"></i><span>Amber</span><code>#F5B942</code></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The loop</h2>
+      <div class="loop">
+        <div class="step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 12S6.2 6.4 12 6.4 21.8 12 21.8 12 17.8 17.6 12 17.6 2.2 12 2.2 12Z"/><circle cx="12" cy="12" r="2.4"/></svg><strong>Perceive</strong><em>Intent and context</em></div>
+        <div class="step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="1.7"/><circle cx="17.5" cy="6.5" r="1.7"/><circle cx="12" cy="17" r="1.7"/><path d="M7.5 8.1 10.6 15.2M16 7.8 13.3 15.2M7.6 7.2 15.8 6.6"/></svg><strong>Reason</strong><em>What is meant</em></div>
+        <div class="step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5h11M8 12h11M8 18.5h7"/><circle cx="4.2" cy="5.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="4.2" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="4.2" cy="18.5" r="1.1" fill="currentColor" stroke="none"/></svg><strong>Plan</strong><em>Steps and checks</em></div>
+        <div class="step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h11M12 7.5 17.5 12 12 16.5"/><circle cx="19.2" cy="12" r="1.15" fill="currentColor" stroke="none"/></svg><strong>Act</strong><em>Through a capability</em></div>
+        <div class="step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7.4"/><path d="M8.6 12.2 11 14.6 15.6 9.4"/></svg><strong>Verify</strong><em>Evidence, then done</em></div>
+        <div class="step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 8.5A7.2 7.2 0 0 0 7.2 6.2M5 15.5A7.2 7.2 0 0 0 16.8 17.8"/><path d="M16.2 5.2 19.2 8.4 15.6 10.2M7.8 18.8 4.8 15.6 8.4 13.8"/></svg><strong>Adapt</strong><em>Retry, ask, or stop</em></div>
+      </div>
+      <div class="primitives" id="primitives"></div>
+    </section>
+
+    <section>
+      <h2>Principles</h2>
+      <div class="principles">
+        <article><strong>Intent over workflow</strong><p>The question is what the user is trying to accomplish.</p></article>
+        <article><strong>Policy before execution</strong><p>A discovered capability is not a permission.</p></article>
+        <article><strong>Verification before completion</strong><p>A call that returns is not yet a result.</p></article>
+        <article><strong>Human authority</strong><p>Autonomy is per capability, and it stops at the boundary.</p></article>
+        <article><strong>Local before cloud</strong><p>Cloud is optional extended cognition.</p></article>
+        <article><strong>Evidence over assertion</strong><p>The trace cites what was observed.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer>RAVEN · maintained at /Users/vijay/rnd/projects/raven</footer>
+  <script>
+    const names = ["intent","policy","evidence","capability","memory","goal"];
+    const host = document.getElementById("primitives");
+    for (const name of names) {
+      const span = document.createElement("span");
+      const img = document.createElement("img");
+      img.src = `../assets/icons/${name}.svg`;
+      img.alt = "";
+      img.width = 18;
+      img.height = 18;
+      span.append(img, document.createTextNode(name));
+      host.append(span);
+    }
+  </script>
+</body>
+</html>

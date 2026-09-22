@@ -1,0 +1,25 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/raven-core",
+    "crates/raven-policy",
+    "crates/raven-tools",
+    "crates/raven-execution",
+    "crates/raven-verification",
+    "crates/raven-events",
+    "crates/raven-runtime",
+    "crates/raven-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+rust-version = "1.83"
+authors = ["VeerLabs"]
+repository = "https://github.com/veeringman/raven"
+
+# Architectural target: Rust edition 2024 (MSRV 1.85+), as set in docs/CONCEPT.md.
+# This bootstrap workspace stays on edition 2021 so it builds on the current
+# toolchain. The source uses no edition-2024-only syntax; flipping `edition`
+# is the migration.

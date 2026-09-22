@@ -1,0 +1,10 @@
+[package]
+name = "raven-core"
+description = "RAVEN domain primitives: intent, goal, capability, policy, and evidence."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+
+[dependencies]

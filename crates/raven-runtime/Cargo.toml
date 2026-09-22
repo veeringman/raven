@@ -1,0 +1,16 @@
+[package]
+name = "raven-runtime"
+description = "Runs one RAVEN loop: perceive, plan, authorize, act, verify."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+
+[dependencies]
+raven-core = { path = "../raven-core" }
+raven-events = { path = "../raven-events" }
+raven-execution = { path = "../raven-execution" }
+raven-policy = { path = "../raven-policy" }
+raven-tools = { path = "../raven-tools" }
+raven-verification = { path = "../raven-verification" }
