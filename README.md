@@ -87,6 +87,17 @@ cd apps/ios/PrepareMyDay && open PrepareMyDay.xcodeproj
 
 See [`apps/ios/PrepareMyDay/README.md`](apps/ios/PrepareMyDay/README.md).
 
+## Veero sample (parallel UI framework)
+
+A Veero-native Prepare my day surface lives in the sibling repo:
+
+```bash
+cd ../veero
+cargo run -p prepare-my-day
+```
+
+Same RAVEN loop. Different body — Veero widgets on the desktop host while the iOS SwiftUI sample remains first-party for Apple platforms until the Veero iOS shell lands.
+
 ## Documents
 
 - [Concept baseline](docs/CONCEPT.md)
